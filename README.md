@@ -6,6 +6,8 @@ Yet another famicom discrete logic mapper made for fun, an extension of sorts of
 * (optional) Scanline IRQ Interrupt
 * (optional) Audio Expansion via a SAM2695 soundchip 
 
+![](render.png)
+
 # Banks
 * CPU $8000-$FFFF: 32 KiB switchable PRG-FLASH
 * PPU $0000-$07FF: 2 KiB switchable CHR-RAM Bank
