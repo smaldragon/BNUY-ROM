@@ -1,12 +1,13 @@
 # BNUY-ROM
 Yet another famicom discrete logic mapper made for fun, an extension of sorts of the BNROM mapper:
 * 128, 256 or 512 KiB of rewritabble PRG-FLASH (39SF Based)
-* 32KiB of CHR-RAM with 4x2KiB banked windows
+* 32KiB of CHR-RAM with (optional) 4x2KiB banked windows
 * Four-Screen Mirroring
 * (optional) Scanline IRQ Interrupt
 * (optional) Audio Expansion via a SAM2695 soundchip 
 
 ![](render.png)
+![](schematic.png)
 
 # Banks
 * CPU $8000-$FFFF: 32 KiB switchable PRG-FLASH
@@ -62,7 +63,7 @@ D~7654 3210
 
 ## CHR-RAM Banking ($E000-$FFFF, write)
 
-These registers select one of 16 2KiB CHR-RAM bank to use for each of the 4 PPU pattern table windows.
+If present, these registers select one of 16 2KiB CHR-RAM bank to use for each of the 4 PPU pattern table windows.
 
 ```
 $E000: CHR-RAM Bank 0 (bottom of Pattern Table 1)
