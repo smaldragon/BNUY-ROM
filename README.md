@@ -82,7 +82,7 @@ D~7654 3210
 
 If present, these registers select one of 16 2KiB CHR-RAM bank to use for each of the 4 PPU pattern table windows.
 
-Banks 0 and 15 are shared with the 4 nametables, and should be avoided unless special care is taken. This leaves 14 banks that can be freely distributed across the 4 windows.  
+Banks 14 and 15 are shared with the 4 nametables, and should be avoided unless special care is taken. This leaves 14 banks that can be freely distributed across the 4 windows.  
 
 ```
 $E000: CHR-RAM Bank 0 (bottom of Pattern Table 1)
