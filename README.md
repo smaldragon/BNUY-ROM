@@ -5,7 +5,7 @@
 An extension of sorts of the BNROM mapper:
 
 * 256, 512, 1024 or 2048 KiB of rewritabble PRG-FLASH (29F Based)
-* 32KiB of CHR-RAM with (optional) 4x2KiB banked windows
+* 32KiB of CHR-RAM with 4x2KiB banked windows
 * Four-Screen Mirroring
 * (optional) PPU A12 Scanline IRQ
 * (optional) Audio Expansion via a SAM2695 soundchip
@@ -48,7 +48,7 @@ Note the shared banking bits for PRG-Flash and PRG-Ram for cases where more than
 
 ## SAM2695 Registers ($A000-$BFFF, write)
 
-If present, this area will write to the SAM2695 soundchip, note that the SAM's Chip-Select is controlled by the respective bit in the PRG-FLASH/CTRL Register. **The board on this repo does not have the Sam2695**.
+If present, this area will write to the SAM2695 soundchip, note that the SAM's Chip-Select is controlled by the respective bit in the PRG-FLASH/CTRL Register.
 
 ```
 $A000 (even): Data
