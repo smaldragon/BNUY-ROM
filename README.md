@@ -7,7 +7,7 @@ An extension of sorts of the BNROM mapper:
 * 256, 512, 1024 or 2048 KiB of rewritabble PRG-FLASH (29F Based)
 * 32KiB of CHR-RAM with 4x2KiB banked windows
 * Four-Screen Mirroring
-* (optional) PPU A12 Scanline IRQ
+* (optional) PPU Scanline IRQ
 * (optional) Audio Expansion via a SAM2695 soundchip
 * (optional) 32KiB of PRG-RAM
 
@@ -61,13 +61,11 @@ D~7654 3210
 ```
 ## IRQ Counter Load ($C000-$DFFF, write)
   
-If present, this register will load a value into a PA12-based scanline counter which decrements once per active scanline*, the counter will continuously trigger an IRQ whenever its value is 7 or lower.
+If present, this register will load a value into a scanline counter which decrements once per active scanline*, the counter will continuously trigger an IRQ whenever its value is 7 or lower.
 There is no reload latch, so this register must be manually reloaded by software after each use.
 
 To acknowledge an IRQ it should be set to a value greater than 7.
 To stop generation of new IRQs the counter can be frozen using the respective bit in the PRG-FLASH/CTRL.
-
-As with the MMC3's scanline counter, this system requires setting tiles and sprites to use pattern tables 1 and 2, respectively. CPU accesses to CHR-RAM will clock the counter if it is not frozen.
 
 ```
 D~7654 3210
@@ -76,7 +74,7 @@ D~7654 3210
   ++++-++++- 8-bit scanline counter value
 ```
 
-> *The Counter makes use of a divide-by-8 prescaler that clocks it at the first rising edge of PPUA12 of a scanline, at around dot 260. If a new value is written in the middle of PPU Sprite Fetching Cycles, the prescaler will get offset.
+> *The Counter is triggered by 4 successive reads with PPUA13=1, which occurs once per active scanline, on ppu cycle 4, this is similar to MMC5's scanline counter.
 
 ## CHR-RAM Banking ($E000-$FFFF, write)
 
