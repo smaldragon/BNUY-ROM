@@ -5,7 +5,7 @@
 An extension of sorts of the BNROM mapper:
 
 * 256, 512, 1024 or 2048 KiB of rewritabble PRG-FLASH (29F Based)
-* 32KiB of CHR-RAM with 4x2KiB banked windows
+* 32KiB or 128KiB of CHR-RAM with 4x2KiB banked windows
 * Four-Screen Mirroring
 * (optional) PPU Scanline IRQ
 * (optional) Audio Expansion via a SAM2695 soundchip
@@ -61,11 +61,10 @@ D~7654 3210
 ```
 ## IRQ Counter Load ($C000-$DFFF, write)
   
-If present, this register will load a value into a scanline counter which decrements once per active scanline*, the counter will continuously trigger an IRQ whenever its value is 7 or lower.
+If present, this register will load a value into a scanline counter which decrements once per active scanline*, the counter will continuously trigger an IRQ whenever its value is 0.
 There is no reload latch, so this register must be manually reloaded by software after each use.
 
-To acknowledge an IRQ it should be set to a value greater than 7.
-To stop generation of new IRQs the counter can be frozen using the respective bit in the PRG-FLASH/CTRL.
+To acknowledge an IRQ it should either be set to a value different from zero, or disable by clearing I bit in PRG-BANK to 0, which will lock the counter at 255.
 
 ```
 D~7654 3210
@@ -78,9 +77,11 @@ D~7654 3210
 
 ## CHR-RAM Banking ($E000-$FFFF, write)
 
-If present, these registers select one of 16 2KiB CHR-RAM bank to use for each of the 4 PPU pattern table windows.
+If present, these registers select one of 16 2KiB CHR-RAM banks, to use for each of the 4 PPU pattern table windows.
 
-Banks 14 and 15 are shared with the 4 nametables, and should be avoided unless special care is taken. This leaves 14 banks that can be freely distributed across the 4 windows.  
+In 32KiB mode, Banks 14 and 15 are shared with the 4 nametables, and should be avoided unless special care is taken. This leaves 14 banks that can be freely distributed across the 4 windows.  
+
+In 128KiB mode, each window now has a unique set of 16 banks, however the first 2 windows both share banks 15 with the nametables.
 
 ```
 $E000: CHR-RAM Bank 0 (bottom of Pattern Table 1)
