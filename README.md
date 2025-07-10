@@ -18,6 +18,7 @@ Bnuy-Rom was developed for my personal homebrew projects, with the goal of being
 This repo includes a 60-pin famicom board fitted for MMC cartridge shells. It has currently not been fully tested.
 
 ![](render.png)
+![](render-tht.png)
 ![](schematic.png)
 
 # Banks
@@ -61,7 +62,7 @@ D~7654 3210
 ```
 ## IRQ Counter Load ($C000-$DFFF, write)
   
-If present, this register will load a value into a scanline counter which decrements once per active scanline*, the counter will continuously trigger an IRQ whenever its value is 0.
+If present, this register will load a value into a scanline counter which decrements once per active scanline, the counter will continuously trigger an IRQ whenever its value is 0.
 There is no reload latch, so this register must be manually reloaded by software after each use.
 
 To acknowledge an IRQ it should either be set to a value different from zero, or disable by clearing I bit in PRG-BANK to 0, which will lock the counter at 255.
@@ -73,7 +74,7 @@ D~7654 3210
   ++++-++++- 8-bit scanline counter value
 ```
 
-> *The Counter is triggered by 4 successive reads with PPUA13=1, which occurs once per active scanline, on ppu cycle 4, this is similar to MMC5's scanline counter.
+The Counter is triggered by 4 successive reads with PPUA13=1, which occurs once per active scanline, on ppu cycle 4, this is similar to MMC5's scanline counter. Unlike the MMC3, this allows sprites to freely use either pattern table, including both while in 8x16 mode. 
 
 ## CHR-RAM Banking ($E000-$FFFF, write)
 
@@ -84,10 +85,10 @@ In 32KiB mode, Banks 14 and 15 are shared with the 4 nametables, and should be a
 In 128KiB mode, each window now has a unique set of 16 banks, however the first 2 windows both share banks 15 with the nametables.
 
 ```
-$E000: CHR-RAM Bank 0 (bottom of Pattern Table 1)
-$E001: CHR-RAM Bank 1 (top of Pattern Table 1)
-$E002: CHR-RAM Bank 2 (bottom of Pattern Table 2)
-$E003: CHR-RAM Bank 3 (top of Pattern Table 2)
+$E000: CHR-RAM Bank 0 ($0000-$07FF)
+$E001: CHR-RAM Bank 1 ($0800-$0FFF)
+$E002: CHR-RAM Bank 2 ($1000-$17FF)
+$E003: CHR-RAM Bank 3 ($1800-$1FFF)
 
 D~7654 3210
   ---------
