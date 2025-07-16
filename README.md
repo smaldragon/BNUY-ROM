@@ -4,12 +4,16 @@
 
 An extension of sorts of the BNROM mapper:
 
-* 256, 512, 1024 or 2048 KiB of rewritabble PRG-FLASH (29F Based)
-* 32KiB or 128KiB of CHR-RAM with 4x2KiB banked windows
+* Banked PRG-FLASH in a 32KiB window:
+* * **39SFxx** - Up to 512 KiB, partially rewritable
+* * **29Fxxx** - Up to 2048KiB, fully rewritable
+* 32KiB or 128KiB of CHR-RAM in 4x2KiB banked windows
 * Four-Screen Mirroring
 * (optional) PPU Scanline IRQ
 * (optional) Audio Expansion via a SAM2695 soundchip
 * (optional) 32KiB of PRG-RAM
+
+As an in development mapper, there is still no iNES number attributed, nor emulator support.
 
 ## Why?
 
@@ -82,7 +86,7 @@ If present, these registers select one of 16 2KiB CHR-RAM banks, to use for each
 
 In 32KiB mode, Banks 14 and 15 are shared with the 4 nametables, and should be avoided unless special care is taken. This leaves 14 banks that can be freely distributed across the 4 windows.  
 
-In 128KiB mode, each window now has a unique set of 16 banks, however the first 2 windows both share banks 15 with the nametables.
+In 128KiB mode, the register is still 4 bits wide, but now each window has their own unique set of 16 banks, with the first 2 windows sharing banks 15 with the nametables.
 
 ```
 $E000: CHR-RAM Bank 0 ($0000-$07FF)
