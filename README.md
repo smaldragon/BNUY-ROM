@@ -5,8 +5,8 @@
 An extension of sorts of the BNROM mapper:
 
 * Banked PRG-FLASH in a 32KiB window:
-* * **39SFxx** - Up to 512 KiB, partially rewritable
-* * **29Fxxx** - Up to 2048KiB, fully rewritable
+* * **39SFxx** - Up to 512 KiB
+* * **29Fxxx** - Up to 2048KiB
 * (optional) Four-Screen Mirroring
 * (optional) 32KiB or 128KiB of CHR-RAM in 4x2KiB banked windows
 * (optional) PPU Scanline IRQ
