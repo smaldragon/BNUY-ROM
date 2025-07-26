@@ -40,6 +40,7 @@ This repo includes 60-pin famicom boards fitted for MMC cartridge shells. They h
 This register controls both banking of PRG Memory, the IRQ Generator and SAM soundchip.
 
 ```
+A~100x xxxx xxxx xxxx
 D~7654 3210
   ---------
   ISbb BBBB
@@ -54,6 +55,7 @@ Note the shared banking bits for PRG-Flash and PRG-Ram for cases where more than
 ### Potential Alternative A
 
 ```
+A~100x xxxx xxxx xxxx ($8000)
 D~7654 3210
   ---------
   bbBB BBBB
@@ -70,14 +72,46 @@ Here the upper 2 bits are instead used for PRG-RAM, with the IRQ Counter now alw
 If present, this area will write to the SAM2695 soundchip, note that the SAM's Chip-Select is controlled by the respective bit in the PRG-FLASH/CTRL Register.
 
 ```
-$A000 (even): Data
-$A001 (odd) : Control
+A~101x xxxx xxxx xxx0 ($A000)
+  Data
+A~101x xxxx xxxx xxx1 ($A001)
+  Control
 
 D~7654 3210
   ---------
   DDDD DDDD
   ++++-++++- 8-bit Data
 ```
+### Potential Alternative A - Nametable Select
+
+In this scenario, a second x670 is placed in this area for nametable selection, enabling effects like single screen mirroring and rom (ram) nametables.
+
+```
+A~101x xxxx xxxx xx00 ($A000)
+  Nametable 0
+A~101x xxxx xxxx xx01 ($A001)
+  Nametable 1
+A~101x xxxx xxxx xx10 ($A002)
+  Nametable 2
+A~101x xxxx xxxx xx11 ($A003)
+  Nametable 3
+
+D~7654 3210
+  ---------
+       DDDD
+       ++++- Nametable
+
+(CHR-ROM + CIRAM Variant)
+D~7654 3210
+  ---------
+          D
+          +- Nametable
+```
+
+As nametable windows are half the size of pattern windows, only half of the overall chr space may be used (unless an oversize 2*x670 variant is used), with the top chr bit being held high/low by a resistor (similar behaviour to Sunsoft-4). In **independent mode** (see chr section), the first 2 nametables will share banks with chr-window 0 and the last 2 nametables will share with chr-window 1.
+
+If CHR-ROM is used, this register would instead select a bank of CIRAM.
+
 ## IRQ Counter Load ($C000-$DFFF, write)
   
 If present, this register will load a value into a scanline counter which decrements once per active scanline, the counter will continuously trigger an IRQ whenever its value is 0.
@@ -86,6 +120,7 @@ There is no reload latch, so this register must be manually reloaded by software
 To acknowledge an IRQ it should either be set to a value different from zero, or disabled by clearing the I bit in PRG-BANK, which will lock the counter at 255.
 
 ```
+A~110x xxxx xxxx xxxx ($C000)
 D~7654 3210
   ---------
   IIII IIII
@@ -105,10 +140,14 @@ In **shared mode**, Banks 14 and 15 are shared with the 4 nametables, and should
 In **independent mode**, the register is still 4 bits wide, but now each window has their own unique set of 16 banks, with the first 2 windows sharing banks 15 with the nametables. This effectively quadruples the amount of chr-ram without adding a second register chip to the board.
 
 ```
-$E000: CHR-RAM Bank 0 ($0000-$07FF)
-$E001: CHR-RAM Bank 1 ($0800-$0FFF)
-$E002: CHR-RAM Bank 2 ($1000-$17FF)
-$E003: CHR-RAM Bank 3 ($1800-$1FFF)
+A~111x xxxx xxxx xx00 ($E000)
+	CHR Window 0
+A~111x xxxx xxxx xx01 ($E001)
+	CHR Window 1
+A~111x xxxx xxxx xx10 ($E002)
+	CHR Window 2
+A~111x xxxx xxxx xx11 ($E003)
+	CHR Window 3
 
 D~7654 3210
   ---------
@@ -121,8 +160,7 @@ This uses a single x670 4x4 register. A second register could be added to the de
 ### Potential Alternative A
 
 ```
-$E000: CHR Banks
-
+A~111x xxxx xxxx xxxx ($E000)
 D~7654 3210
   ---------
   BBBB BBBB
@@ -135,8 +173,7 @@ Here there are only 2 windows, the x670 is replaced with an 8bit register and a 
 ### Potential Alternative B
 
 ```
-$E000: CHR Bank
-
+A~111x xxxx xxxx xxxx ($E000)
 D~7654 3210
   ---------
        BBBB
@@ -148,3 +185,4 @@ Here there is only 1 window, the x670 is replaced with either a x173 (128KiB) or
 ### Potential Alternative C
 
 No Register! Instead there is a fixed 8KiB of CHR-RAM, 4 Nametables and ~4KiB of bonus ram at ppu $3000-3FFF. (Assuming a common 32KiB RAM chip)
+ 
