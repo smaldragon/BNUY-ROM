@@ -1,6 +1,6 @@
 # BNUY-ROM
 
-BNUY-ROM is an discrete logic mapper for the famicom/nes I designed for my homebrew projects, it aims to have a similar level of capabilities to common ASIC mappers, while keeping a low chip count. It is similar to BNROM, hence the name.
+BNUY-ROM is a discrete logic mapper for the famicom/nes I designed for my homebrew projects, it aims to have a similar level of capabilities to common ASIC mappers, while keeping a low chip count. It is similar to BNROM, hence the name.
 
 Its capabilities are:
 
