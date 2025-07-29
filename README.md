@@ -59,7 +59,7 @@ D~7654 3210
   ++++-++++- 8-bit scanline counter value
 ```
 
-The Counter is triggered by 4 successive reads with PPUA13=1, which occurs once per active scanline on ppu cycle 4, this is similar to MMC5's scanline counter. Unlike the MMC3, this allows sprites to freely use either pattern table, including both while in 8x16 mode.
+The Counter is triggered by 4 successive reads with PPUA13=1, which occurs once per active scanline on ppu cycle 4, with the IRQ# line being pulled low 2 cycles later. this is similar to MMC5's scanline counter. Unlike the MMC3, this allows sprites to freely use either pattern table, including both while in 8x16 mode.
 
 It uses a x4520 to detect scanlines, and either a x40103 or two x191/x193s to hold the counter value.
 
