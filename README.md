@@ -30,7 +30,7 @@ Render/schematic for the prototype through-hole version:
 
 # Registers
 
-## PRG-FLASH/CTRL Register ($8000-$9FFF, write)
+## PRG Banking ($8000-$9FFF, write)
 
 This register controls the banking of PRG Flash and Ram.
 
@@ -69,7 +69,7 @@ Overall the mechanism is similar to MMC5's scanline counter, but using relative 
 
 It uses a x4520 to detect scanlines, and either a x40103 or two x191/x193s to hold the counter value.
 
-## CHR-RAM Banking ($E000-$FFFF, write)
+## CHR Banking ($E000-$FFFF, write)
 
 If present, these registers select one of 16 2KiB CHR-RAM banks, to use for each of the 4 PPU pattern table windows.
 
