@@ -18,6 +18,7 @@ Render/schematic for the prototype through-hole version:
 
 ![](render-tht.png)
 ![](schematic-tht.png)
+![](schematic-smd.png)
 
 # Banks
 
