@@ -14,10 +14,10 @@ Its capabilities are:
 
 As an in-development mapper, there is currently no iNES number attributed, nor mainstream emulator support.
 
-Render/schematic for the prototype through-hole version:
+Render/schematic for the prototype smd/tht versions:
 
 ![](render-tht.png)
-![](schematic-tht.png)
+![](schematic-smd.png)
 ![](schematic-smd.png)
 
 # Banks

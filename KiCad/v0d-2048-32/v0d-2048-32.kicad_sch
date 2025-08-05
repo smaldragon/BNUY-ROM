@@ -7,7 +7,7 @@
 	(title_block
 		(title "BNUY-ROM Board")
 		(date "2025-06-30")
-		(rev "v0c")
+		(rev "v0d")
 	)
 	(lib_symbols
 		(symbol "4520_1"
@@ -7318,7 +7318,7 @@
 		)
 		(uuid "21fd7cab-8b11-444b-b5bb-69d9ff8f05cd")
 	)
-	(text "is.. bbbb"
+	(text "rrpp pppp"
 		(exclude_from_sim no)
 		(at 52.705 27.305 0)
 		(effects
@@ -7524,17 +7524,6 @@
 		)
 		(uuid "7bc6b196-82b2-4bec-8d21-afc61cb55f08")
 	)
-	(text "dddd dddd"
-		(exclude_from_sim no)
-		(at 52.07 33.02 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "860793c4-f413-4e3e-b726-3d55eff176c1")
-	)
 	(text "CHR LATCH"
 		(exclude_from_sim no)
 		(at 147.32 113.284 0)
@@ -7720,7 +7709,7 @@
 		)
 		(uuid "fb8fd673-500a-4441-b1e3-07902dae248f")
 	)
-	(text_box "$8000\nPRG BANK & CTRL\n\n$A000\n(sound Registers)\n\n$C000\nIRQ LOAD\n\n$E000-E003\nCHR BANK"
+	(text_box "$8000\nPRG BANK\n\n\n\n\n$C000\nIRQ LOAD\n\n$E000-E003\nCHR BANK"
 		(exclude_from_sim no)
 		(at 17.145 23.495 0)
 		(size 26.67 24.765)
