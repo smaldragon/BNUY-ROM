@@ -17,7 +17,7 @@ As an in-development mapper, there is currently no iNES number attributed, nor m
 Render/schematic for the prototype smd/tht versions:
 
 ![](render-tht.png)
-![](schematic-smd.png)
+![](render-smd.png)
 ![](schematic-smd.png)
 
 # Banks
