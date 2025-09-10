@@ -5,8 +5,8 @@ BNUY-ROM is a discrete logic mapper for the famicom/nes I designed for my homebr
 Its capabilities are:
 
 * Rewritable PRG-FLASH, 32K Window:
-* * **39SFxx** - Up to 512 KiB
-* * **29Fxxx** - Up to 2048KiB
+* * **39SF0x0** - Up to 512 KiB
+* * **29FxxxFT** - Up to 2048KiB
 * 32KiB PRG-RAM, 8K Window
 * 8KiB, 32KiB or 128KiB of CHR-RAM, 4*2K Windows
 * Fixed 4-Screen Nametable Arrangement
@@ -97,3 +97,45 @@ D~7654 3210
 ```
 
 This uses a single x670 4x4 register. A second register could be added to the design for an oversize variant of 512KiB (shared) or 2048KiB (independent). A design with CHR-ROM could be used instead, at the cost of losing 4-screen nametable arrangement.
+
+# NES 2.0 Description (tentative)
+
+**Mapper ID**: *Unassigned*
+
+**Flags 6 (nametable layout)**
+
+```
+D~3210
+  ----
+  F00M
+  |  +-- Hard-Wired Arragement
+  |        0: Vertical / 4-screen
+  |        1: Horizontal
+  +----- 4-Screen Arrangement
+           0: Hard-Wired (using CIRAM)
+           1: 4-Screen (using CHR-RAM)
+```
+
+Most games will have `%1000` here.
+
+**Flags 8 (submapper)**
+
+```
+D~7654
+  ----
+  FICC
+  ||++-- CHR Banking Mode
+  ||        0: 8K/Linear (no banking)
+  ||        1: 32K/Shared (all banks avaliable in every window)
+  ||        2: 128K/Independent (all windows have unique sets of banks)
+  |+---- Interrupt Generator
+  |         0: Present
+  |         1: Missing
+  +----- Flash Memory Type
+            0: 39SF0x0 (128K, 256K, 512K)
+            1: 29FxxxFT (256K, 512K, 1024K, 2048K)
+```
+
+**PRG-ROM, PRG-RAM and CHR-RAM size**
+
+Size should match the memory present on the board.
