@@ -97,6 +97,109 @@ D~7654 3210
 
 This uses a single x670 4x4 register. A second register could be added to the design for an oversize variant of 512KiB (shared) or 2048KiB (independent). A design with CHR-ROM could be used instead, at the cost of losing 4-screen nametable arrangement.
 
+# Flash Programming
+
+Flash programming is achieved by writing a specific sequence of command bytes to particular memory addresses, during this process flash memory cannot be read as normal, and conflicting mapper registers will have their values overwritten. As such, **flash programming code must be run from the internal 2KiB console ram, and all interrupts must be disabled**.
+
+Flash writes operate by ANDing the written byte with the existing value in memory, with the only way to set a bit being by erasing an entire sector to `$FF`.
+
+39SF commands listen to `A0-14`, which requires clobbering the IRQ Counter, while 29F commands listen only to `A0-A11`, allowing commands to fit in the unused `$A000-$BFFF` region.
+
+For more information check the datasheet for your particular flash chip.
+
+## Write Byte
+
+### 39SF0x0
+
+```
+A~$8000 D~BANK
+A~$D555 D~$AA
+A~$AAAA D~$55
+A~$D555 D~$A0
+A~ADDR  D~DATA
+```
+
+### 29FxxxFT
+
+```
+A~$8000 D~BANK
+A~$AAAA D~$AA
+A~$A555 D~$55
+A~$AAAA D~$A0
+A~ADDR  D~DATA
+```
+
+
+## Erase Sector
+
+### 39SF0x0
+
+```
+A~$8000 D~BANK
+A~$D555 D~$AA
+A~$AAAA D~$55
+A~$D555 D~$80
+A~$D555 D~$AA
+A~$AAAA D~$55
+A~ADDR  D~$30
+```
+**39SF0x0** uses uniform sectors of 4KiB,
+
+### 29FxxxFT
+
+```
+A~$8000 D~BANK
+A~$AAAA D~$AA
+A~$A555 D~$55
+A~$AAAA D~$80
+A~$AAAA D~$AA
+A~$A555 D~$55
+A~ADDR  D~$30
+```
+
+**29FxxxFT** uses sectors of varying sizes depending on bank:
+* Last Bank: 8KiB sectors at `$8000-$9FFF`, `$A000-$BFFF`, 16KiB sector at `$C000-$FFFF`
+* Second-to-Last Bank: Single 32KiB sector
+* All other banks: 64KiB sectors spanning 2 banks each.
+
+## Write/Erase End Detect
+
+The end of a write or erase operation can be detected by reading any memory address in flash until the same value is returned twice (toggle bit method).
+
+## Software ID
+
+Software ID mode can be entered to detect the manufacturer, size and type of flash chip, allowing for the same rom file to be compatible with multiple board configurations. Software ID is entered using the following command sequences:
+
+### 39SF0x0
+
+```
+A~$8000 D~$00
+A~$D555 D~$AA
+A~$AAAA D~$55
+A~$D555 D~$90
+```
+
+### 29FxxxFT
+
+```
+A~$8000 D~$00
+A~$AAAA D~$AA
+A~$A555 D~$55
+A~$AAAA D~$90
+```
+
+Software ID mode is exited by writing `$F0` anywhere in flash.
+
+### Device Code ($8001, read)
+
+* `$B5` - 39SF010 (128KiB)
+* `$B6` - 39SF020 (256KiB)
+* `$B7` - 39SF040  (512KiB)
+* `$51` - 29F200FT (256KiB)
+* `$23` - 29F400FT (512KiB)
+* `$D6` - 29F800FT (1024KiB)
+* `$D2` - 29F160FT (2048KiB)
+
 # NES 2.0 Description (tentative)
 
 **Mapper ID**: *Unassigned*
