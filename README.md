@@ -204,21 +204,24 @@ Software ID mode is exited by writing `$F0` anywhere in flash.
 
 **Mapper ID**: *Unassigned*
 
-**Flags 6 (nametable layout)**
+**Flags 6 (nametable layout/flashing)**
 
 ```
 D~3210
   ----
-  F00M
-  |  +-- Hard-Wired Arragement
-  |        0: Vertical / 4-screen
-  |        1: Horizontal
+  F0BM
+  | |+-- Hard-Wired Arragement
+  | |      0: Vertical / 4-screen
+  | |      1: Horizontal
+  | +--- Uses Flash Saves
+  |        0: No
+  |        1: Yes
   +----- 4-Screen Arrangement
            0: Hard-Wired (using CIRAM)
            1: 4-Screen (using CHR-RAM)
 ```
 
-Most games will have `%1000` here.
+Most games will have `%1010` here.
 
 **Flags 8 (submapper)**
 
